@@ -95,7 +95,7 @@ export default function RegisterForm() {
 
     showToastMessage('Registration successful! You can now log in.')
     setTimeout(() => {
-      router.push('/login')
+      router.push('/auth/signIn')
     }, 2500);
   }
 
