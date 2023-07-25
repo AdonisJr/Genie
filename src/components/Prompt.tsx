@@ -1,5 +1,5 @@
 "use client"
-import React, {useRef} from 'react';
+import React, { useRef} from 'react';
 import { useStore } from '@/store';
 
 // react toastify imports
@@ -11,10 +11,10 @@ export default function Prompt() {
   const promptRef = useRef<HTMLInputElement>(null);
   const sizeRef = useRef(null);
 
-  const [isLoading, setLoading, setImage, user, wish] = useStore((state)=>
-    [state.isLoading, state.setLoading, state.setImage, state.user, state.wish]
+  const [isLoading, setLoading, setImage, user, wish, decreaseWish] = useStore((state)=>
+    [state.isLoading, state.setLoading, state.setImage, state.user, state.wish, state.decreaseWish]
   )
-
+  console.log(user.id)
   const showErrorMessage = (message: String) => {
     toast.error(message, {
         position: toast.POSITION.TOP_LEFT,
@@ -25,7 +25,7 @@ export default function Prompt() {
   async function generateImage (e: any){
     e.preventDefault();
     if(!user.name) return showErrorMessage("Please login");
-    
+
     if(wish === 0) return showErrorMessage('You have used all your wishes. Please come back later or earn more wishes.')
     
     if(isLoading) return showErrorMessage("Your request still being processed, please wait.");
@@ -42,11 +42,23 @@ export default function Prompt() {
             size: "1024x1024"
           })
         }).then((res)=>{res.json()
-          .then((data=>{
+          .then((async(data)=>{
+              decreaseWish()
               setImage(data.data)
               setLoading(false)
+              await fetch('/api/wish/decrease',{
+                method: 'POST',
+                headers:{
+                  'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                  id: user.id,
+                  wish: wish -1
+                })
+              })
         }))
       })
+      
     }
     catch(error){ 
       console.log(error)

@@ -12,7 +12,7 @@ export default function Home() {
   const [activePage, setUser, wish, setWish] = 
   useStore(state => [state.activePage, state.setUser, state.wish, state.setWish])
   const {data: session} = useSession()
-
+  
   const getUser = async () =>{
     const newUser = await fetch('/api/user/details',{
       method: 'POST',

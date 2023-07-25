@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useStore } from '@/store';
 import ButtonSpinner from './ButtonSpinner';
 
@@ -8,15 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function UploadForm() {
-  const [imageResult, user, isLoading, setLoading ] = useStore(state=>
-    [state.imageResult, state.user, state.isLoading, state.setLoading])
+  
+  const [buttonLoading, setButtonLoading] = useState(false)
+  const [imageResult, user] = useStore(state=>
+    [state.imageResult, state.user])
 
-   const showToastError = (message: String) => {
-    toast.error(message, {
-        position: toast.POSITION.TOP_LEFT,
-        autoClose: 2000
-    });
-  };
   const showToastSuccess = (message: String) => {
     toast.success(message, {
         position: toast.POSITION.TOP_LEFT,
@@ -26,10 +22,7 @@ export default function UploadForm() {
 
   const handleSubmit = async (e:any) =>{
     e.preventDefault();
-    setLoading(true)
-
-    // if loading show error message
-    if(isLoading) return showToastError('Uploading please wait.')
+    setButtonLoading(true)
 
     // upload image to cloudinary and save url to mongodb
     await fetch('/api/uploadImage',{
@@ -42,7 +35,7 @@ export default function UploadForm() {
         _id: user.id
       })
     }).then(res => res.json()).then(data => {
-      setLoading(false)
+      setButtonLoading(false)
       showToastSuccess('Successfully uploaded')
       return data.secure_url
     })
@@ -52,7 +45,7 @@ export default function UploadForm() {
     <div className='flex gap-3 py-5'>
         <ToastContainer />
         
-        <ButtonSpinner loading={isLoading} onClick={handleSubmit} name='Uploading'>
+        <ButtonSpinner loading={buttonLoading} onClick={handleSubmit} name='Uploading'>
           Add to Collection
         </ButtonSpinner>
 

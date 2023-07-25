@@ -4,15 +4,16 @@ import { usersModel } from "@/models/users";
 
 export const POST = async (req: NextRequest) =>{
     const user = await req.json();
+    console.log(user.id)
     try{
         await connectDB();
 
-        await usersModel.updateOne({id: user.id},{$set:{wish:user.wish}})
+        const result = await usersModel.updateOne({_id: user.id},{$set:{wish: user.wish}})
         
-        return NextResponse.json(usersModel)
+        return NextResponse.json(result)
 
     }catch(error){
-        throw new Error('500 Server Error')
+       console.log(error)
     }
 
     

@@ -1,10 +1,11 @@
 "use client"
-import React, {useState} from 'react'
+import React from 'react'
 import { useStore } from '@/store'
 import UploadForm from './UploadForm'
 import Image from 'next/image'
 
 export default function Result() {
+
   const imageResult = useStore((state)=>[state.imageResult])
 
   return (
