@@ -21,14 +21,14 @@ export default function Header(){
             
             {
                 !session?.user ? //if not logged in
-            <li className="flex flex-col sm:flex-row items-center gap-3 p-2 text-sm font-mono">
+            <li className="flex flex-row justify-center items-center gap-3 p-2 text-sm font-mono">
                     <button onClick={()=>signIn()} className='cursor-pointer flex items-center gap-1 bg-blue-500 text-white hover:bg-blue-600 hover:text-white py-2 px-4 rounded duration-200'>Login</button>
                     <Link href='/register' className='text-blue-black hover:text-slate-500 duration-200'>Sign up</Link>
             </li> 
                 : //if logged in
             
-            <li className="flex flex-wrap items-center gap-3 p-2">
-                
+            <li className="flex border-t-2 mt-2 pt-4 sm:border-0 sm:pt-0 border-slate-300 flex-wrap justify-center items-center gap-3 p-2">
+                    
                     <div className="relative inline-flex items-center text-sm font-medium text-center text-white rounded-full hover:shadow-xl">
                         <img src="/wish.svg" alt="Wish" width={40} height={40} />
                         <span className="sr-only">Notifications</span>
@@ -38,10 +38,9 @@ export default function Header(){
                     </div>
 
                     <div className='cursor-pointer'><span className='text-lg font-semibold'>{user.name.split(' ')[0]}</span></div>
-                    {
-                    !session?.user ? '' :
+                    
                     <button className='text-red-800 hover:text-red-600' onClick={()=>signOut()}>Logout</button>
-                    }
+                    
             </li>
             }
 
