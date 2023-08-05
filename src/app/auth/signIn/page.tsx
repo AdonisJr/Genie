@@ -1,8 +1,13 @@
+"use client"
 import React from 'react'
 import Link from 'next/link'
 import LoginForm from '@/components/LoginForm'
+import { useSession } from 'next-auth/react'
+import { redirect } from 'next/navigation'
 
 export default function page() {
+  const {data: session} = useSession();
+  if(!session?.user) redirect('/')
   return (
     <div className='flex flex-col h-screen sm:flex-row sm:justify-center sm:items-center'>
         <Link href='/' className='float top-5 left-5 fixed'>
