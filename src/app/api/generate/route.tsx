@@ -9,6 +9,7 @@ export async function GET(req: Request){
 export async function POST(req: NextRequest){
 
     const data = await req.json();
+
 try{
   const response = await openai.createImage({
     prompt: data.prompt,
@@ -17,6 +18,7 @@ try{
   });
   
   if(!response) return console.log(response)
+  console.log(response)
   return NextResponse.json({data: response.data.data[0].url})
 }catch (error: any) {
   console.log(error)

@@ -36,6 +36,9 @@ export default function Prompt() {
       setLoading(true)
         await fetch('/api/generate',{
           method: 'POST',
+          headers:{
+            'Content-type': 'application/json'
+          },
           body: JSON.stringify({
             prompt: promptData ? promptData: 'Generate meme image' ,
             n: 1,

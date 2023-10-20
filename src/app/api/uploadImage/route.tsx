@@ -13,6 +13,7 @@ export async function POST(req: NextRequest){
     .then(blob=>{
       return blob
     })
+
     // created form data then append blob files
     const formData = new FormData();
     formData.append('file', files)
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest){
           method: 'POST',
           body: formData
     }).then(res=> res.json())
+    
     // saving the secure_url from cloudinary to mongodb
     await connectDB()
     await imageCollectionsModel.create({
